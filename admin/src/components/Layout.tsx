@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { FiHome, FiCalendar, FiUsers, FiDollarSign, FiBarChart2, FiMenu } from 'react-icons/fi'
+import { FiHome, FiCalendar, FiUsers, FiDollarSign, FiBarChart2, FiMenu, FiX } from 'react-icons/fi'
 import { useState } from 'react'
 
 interface LayoutProps {
@@ -9,7 +9,12 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const isDesktop = window.innerWidth >= 640
+    setSidebarOpen(isDesktop)
+  }, [])
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: FiHome },
@@ -20,10 +25,17 @@ const Layout = ({ children }: LayoutProps) => {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       {/* Sidebar */}
-      <aside className={`fixed top-0 left-0 z-40 h-screen transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 w-64 bg-gradient-to-b from-primary-600 to-purple-700`}>
-        <div className="h-full px-3 py-4 overflow-y-auto">
+      <aside className={`fixed top-0 left-0 z-40 h-screen transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 w-72 sm:w-64 bg-gradient-to-b from-primary-600 to-purple-700 shadow-xl sm:shadow-none`}>
+        <div className="relative h-full px-3 py-4 overflow-y-auto">
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="sm:hidden absolute top-3 right-3 text-white/80 hover:text-white"
+            aria-label="Close menu"
+          >
+            <FiX className="text-2xl" />
+          </button>
           <div className="flex items-center mb-8 px-4">
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center mr-3">
               <span className="text-primary-600 font-bold text-xl">IBA</span>
@@ -47,6 +59,7 @@ const Layout = ({ children }: LayoutProps) => {
                         ? 'bg-white text-primary-600'
                         : 'text-white hover:bg-white/10'
                     }`}
+                    onClick={() => setSidebarOpen(false)}
                   >
                     <Icon className="text-xl mr-3" />
                     <span className="font-medium">{item.name}</span>
@@ -57,6 +70,11 @@ const Layout = ({ children }: LayoutProps) => {
           </ul>
         </div>
       </aside>
+
+      <div
+        className={sidebarOpen ? 'fixed inset-0 bg-black/30 backdrop-blur-sm z-30 sm:hidden' : 'hidden'}
+        onClick={() => setSidebarOpen(false)}
+      />
 
       {/* Main Content */}
       <div className="sm:ml-64">
