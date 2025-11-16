@@ -139,4 +139,4 @@ Detailed Guides:
 4. UPDATE URLs (1 min):
    Add Railway API URL to admin & client environment variables
 
-✅ DONE! All three apps will be live and working!
+✅ DONE! All three apps will be live and working!..
