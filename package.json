@@ -1,0 +1,7 @@
+{
+  "name": "iba-cleaning-root",
+  "private": true,
+  "scripts": {
+    "build": "cd admin && npm ci && npm run build"
+  }
+}
