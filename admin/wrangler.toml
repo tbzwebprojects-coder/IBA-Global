@@ -1,0 +1,13 @@
+name = "iba-cleaning-admin"
+compatibility_date = "2024-11-16"
+
+# Pages configuration for static site
+pages_build_output_dir = "dist"
+
+# Environment variables
+[vars]
+VITE_API_URL = "" # Will be set after API deployment
+
+# Build configuration (optional - Cloudflare Pages handles this)
+# [build]
+# command = "npm run build"
